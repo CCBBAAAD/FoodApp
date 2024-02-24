@@ -15,16 +15,32 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.project.SeniorCitizenApp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.project.SeniorCitizenApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "be3cd76d-1884-424d-9180-a59c48efe358"
+      }
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+        }
+      ],
+      "expo-font"
+    ]
   }
 }
