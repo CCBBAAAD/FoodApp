@@ -190,7 +190,7 @@ const GPCKennyRogers = ({ navigation }) => {
         <View style={{ flex: 1 }}>
             <Image source={require('../../../assets/finalAssets/gpc_kennyRogers.png')} style={styles.backgroundImage} />
             <TouchableOpacity onPress={() => { navigation.goBack(); }} style={[styles.backButton, { backgroundColor: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>
-                {iers == <Ionicons name="arrow-back" size={14} color={fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC'} />}
+                {iers == 'Level 2' && <Ionicons name="arrow-back" size={14} color={fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC'} />}
                 <Text style={[styles.backText, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC' }]}>Back</Text>
             </TouchableOpacity>
             <ScrollView style={styles.detailsContainer}>

@@ -20,28 +20,32 @@ const EditDeliveryAddress = ({ navigation }) => {
     const [fSize, setFSize] = useState('Level 1');
     const [cdl, setCDL] = useState('Level 1');
     const [loadingScreen, setLoadingScreen] = useState(false);
-
+    const [permissionsGranted, setPermissionsGranted] = useState(false);
 
     useEffect(() => {
         setLoadingScreen(true);
-        fetchData(); // Function to fetch data
-        (async () => {
-            try {
-                const add = await getItem('address');
-                setAddress(add);
-
-                const lat = await getItem('latitude');
-                const long = await getItem('longitude');
-
-                setLatitude(parseFloat(lat));
-                setLongitude(parseFloat(long));
-                setLoading(false);
-            } catch (error) {
-                console.error('Failed to load data', error);
-                setLoading(false); // Ensure loading is set to false even if there's an error
-            }
-        })();
+        checkPermissionsAndFetchData();
     }, []);
+
+    const checkPermissionsAndFetchData = async () => {
+        try {
+            const { status } = await Location.requestForegroundPermissionsAsync();
+            if (status === 'granted') {
+                setPermissionsGranted(true);
+                await getCurrentLocation();
+                await fetchData();
+
+            } else {
+                alert('Permission to access location was denied');
+                setLoadingScreen(false);
+            }
+        } catch (error) {
+            console.error('An error occurred while fetching data', error);
+            setLoadingScreen(false);
+        }
+    };
+
+
 
 
     const fetchData = async () => {
@@ -94,6 +98,23 @@ const EditDeliveryAddress = ({ navigation }) => {
                 } else {
 
                     setCDL(cdl1);
+                }
+
+                const add = await getItem('address');
+
+
+                const lat = await getItem('latitude');
+                const long = await getItem('longitude');
+
+
+
+                if (!lat && !long) {
+
+                    console.log("No Save address");
+                } else {
+                    setAddress(add);
+                    setLatitude(parseFloat(lat));
+                    setLongitude(parseFloat(long));
                 }
 
                 setLoadingScreen(false);
@@ -158,6 +179,8 @@ const EditDeliveryAddress = ({ navigation }) => {
 
         setLatitude(latitude);
         setLongitude(longitude);
+        console.log(latitude);
+        console.log(longitude);
 
         // Reverse geocode the coordinates to get address
         const addressResponse = await Location.reverseGeocodeAsync({
@@ -166,12 +189,12 @@ const EditDeliveryAddress = ({ navigation }) => {
         });
 
         if (addressResponse.length > 0) {
-            const { city, region, postalCode, country, district } = addressResponse[0];
+            const { city, region, country } = addressResponse[0];
             let fullAddress = '';
-            if (district) fullAddress += `${district}, `;
+
             if (city) fullAddress += `${city}, `;
             if (region) fullAddress += `${region}, `;
-            if (postalCode) fullAddress += `${postalCode}, `;
+
             if (country) fullAddress += country;
 
 
@@ -179,7 +202,7 @@ const EditDeliveryAddress = ({ navigation }) => {
         }
     };
 
-    if (loadingScreen) {
+    if (loadingScreen && !latitude) {
         return <View style={styles.loadingContainer}>
             <Text style={[styles.loadingText, { color: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>Loading!</Text>
             <ActivityIndicator size="large" color={bgColor == 'Level 1' ? "#1D601A" : "#298825"} />
@@ -192,22 +215,24 @@ const EditDeliveryAddress = ({ navigation }) => {
 
             <View style={[styles.header, { backgroundColor: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>
                 <TouchableOpacity onPress={() => { navigation.navigate('Homepage'); }} style={[styles.backButton, { backgroundColor: 'white', padding: ies == 'Level 1' ? 10 : 'Level 2' ? 11 : 12 }]}>
-                    {iers == <Ionicons name="chevron-back" size={ies == 'Level 1' ? 14 : 'Level 2' ? 16 : 18} color={bgColor == 'Level 1' ? "#1D601A" : "#298825"} />}
+                    {iers == 'Level 2' && <Ionicons name="chevron-back" size={ies == 'Level 1' ? 14 : 'Level 2' ? 16 : 18} color={bgColor == 'Level 1' ? "#1D601A" : "#298825"} />}
                     <Text style={[styles.backText, { fontSize: ies == 'Level 1' ? 12 : 'Level 2' ? 14 : 16, color: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>Back</Text>
                 </TouchableOpacity>
                 <Text style={styles.titleText}>Delivery Address</Text>
             </View>
             <View style={styles.content}>
                 <MapView
-                    showsMyLocationButton
-                    showsUserLocation
+                    showsMyLocationButton={true}
+                    showsUserLocation={true}
                     style={styles.map}
+
                     provider={PROVIDER_GOOGLE}
+
                     region={{
                         latitude: latitude,
                         longitude: longitude,
-                        latitudeDelta: 0.00922,
-                        longitudeDelta: 0.00421,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
                     }}
                     onPress={handleMapClick} // Add this onPress event handler
                 >

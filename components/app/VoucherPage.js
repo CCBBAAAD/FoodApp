@@ -85,9 +85,9 @@ const VoucherPage = ({ navigation }) => {
     };
 
     const vouchers = [
-        { id: '1', title: '50% Exclusive promo', vouchersLeft: 2, minimumPurchase: 800, discount: 50 },
-        { id: '2', title: '20% Senior Discount', vouchersLeft: 2, minimumPurchase: 800, discount: 20 },
-        { id: '3', title: '5% Exclusive promo', vouchersLeft: 2, minimumPurchase: 800, discount: 5 },
+        { id: '1', title: '50% Exclusive promo', vouchersLeft: 2, minimumPurchase: 800, discount: '50' },
+        { id: '2', title: '20% Senior Discount', vouchersLeft: 2, minimumPurchase: 800, discount: '20' },
+        { id: '3', title: '5% Exclusive promo', vouchersLeft: 2, minimumPurchase: 800, discount: '05' },
         // ... more voucher data ...
     ];
 
@@ -135,7 +135,7 @@ const VoucherPage = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
             <View style={[styles.header, { backgroundColor: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>
                 <TouchableOpacity onPress={() => { navigation.goBack(); }} style={[styles.backButton, { backgroundColor: 'white', padding: ies == 'Level 1' ? 10 : 'Level 2' ? 11 : 12 }]}>
-                    {iers == <Ionicons name="chevron-back" size={ies == 'Level 1' ? 14 : 'Level 2' ? 16 : 18} color={bgColor == 'Level 1' ? "#1D601A" : "#298825"} />}
+                    {iers == 'Level 2' && <Ionicons name="chevron-back" size={ies == 'Level 1' ? 14 : 'Level 2' ? 16 : 18} color={bgColor == 'Level 1' ? "#1D601A" : "#298825"} />}
                     <Text style={[styles.backText, { fontSize: ies == 'Level 1' ? 12 : 'Level 2' ? 14 : 16, color: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>Back</Text>
                 </TouchableOpacity>
                 <Text style={styles.titleText}>Available Voucher</Text>

@@ -178,7 +178,7 @@ const SubwayPage = ({ navigation }) => {
         <View style={{ flex: 1 }}>
             <Image source={require('../../assets/finalAssets/subway.png')} style={styles.backgroundImage} />
             <TouchableOpacity onPress={() => { navigation.navigate('Homepage'); }} style={[styles.backButton, { backgroundColor: bgColor == 'Level 1' ? "#1D601A" : "#298825", padding: ies == 'Level 1' ? 10 : 'Level 2' ? 11 : 12 }]}>
-                {iers == <Ionicons name="chevron-back" size={ies == 'Level 1' ? 14 : 'Level 2' ? 16 : 18} color="white" />}
+                {iers == 'Level 2' && <Ionicons name="chevron-back" size={ies == 'Level 1' ? 14 : 'Level 2' ? 16 : 18} color="white" />}
                 <Text style={[styles.backText, { fontSize: ies == 'Level 1' ? 12 : 'Level 2' ? 14 : 16 }]}>Back</Text>
             </TouchableOpacity>
             <View style={[styles.detailsContainer, { marginTop: isScrolled ? 100 : 200 }]} >

@@ -385,7 +385,13 @@ const Homepage = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
 
             {isScrolled == false && <View style={[styles.header, { backgroundColor: bgColor == 'Level 1' ? "#1D601A" : "#298825", }]}>
-                <Text style={[styles.titleText, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC' }]}>Hello, Berna!</Text>
+                <View style={styles.header1}>
+                    <Text style={[styles.titleText, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC' }]}>Hello, Berna!</Text>
+
+                    <Ionicons name="settings" size={ies == 'Level 1' ? 18 : 'Level 2' ? 22 : 26} color="white" onPress={() => { setModalVisible(true) }} style={styles.titleIcon} />
+
+                </View>
+
                 <View style={styles.headerProgress}>
 
                     <Ionicons name="location-outline" size={16} color="white" marginTop={2} />
@@ -766,9 +772,6 @@ const Homepage = ({ navigation }) => {
                     </View>
                 </TouchableOpacity>
             }
-            <TouchableOpacity onPress={() => { setModalVisible(true) }} style={[styles.fab, { backgroundColor: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>
-                <Ionicons name="settings" size={ies == 'Level 1' ? 18 : 'Level 2' ? 22 : 26} color="white" />
-            </TouchableOpacity>
 
 
             <Modal
@@ -858,7 +861,7 @@ const Homepage = ({ navigation }) => {
                         </View>
 
 
-                        <Text style={styles.settingsTitle}>Application Themed Color</Text>
+                        <Text style={styles.settingsTitle}>Application Theme Color</Text>
 
                         <View style={styles.BottomOptionTopRow}>
                             <TouchableOpacity style={[styles.modalOptions, { backgroundColor: bgColor == 'Level 1' ? bgColor == 'Level 1' ? "#1D601A" : "#298825" : 'white', borderColor: bgColor == 'Level 1' ? "#1D601A" : "#298825", }]} onPress={() => { setBgColor('Level 1') }}>
@@ -968,7 +971,15 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 30,
         borderBottomRightRadius: 30,
         paddingHorizontal: 18,
-    }, headerScrolled: {
+    },
+
+    header1: {
+        alignItems: 'flex-start',
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+
+    headerScrolled: {
         alignItems: 'flex-start',
         borderBottomLeftRadius: 15,
         borderBottomRightRadius: 15,
@@ -980,6 +991,12 @@ const styles = StyleSheet.create({
         paddingBottom: 5,
         fontSize: 22,
         fontWeight: 'bold',
+
+    },
+
+    titleIcon: {
+        paddingTop: 25,
+        paddingLeft: 170
 
     },
 
@@ -1276,13 +1293,12 @@ const styles = StyleSheet.create({
     },
 
     fab: {
-        position: 'absolute',
+
         width: 56,
         height: 56,
         alignItems: 'center',
         justifyContent: 'center',
-        right: 20,
-        bottom: 80,
+
         borderRadius: 28,
         elevation: 4,
         shadowColor: '#000',

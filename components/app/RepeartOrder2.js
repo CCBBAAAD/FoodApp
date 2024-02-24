@@ -184,7 +184,7 @@ const RepeatOrder2 = ({ navigation }) => {
     const removeAsync = () => {
 
         try {
-            setItem('PrevCartDetails', JSON.stringify([cart]));
+            setItem('PrevCartDetails', JSON.stringify(cart));
             removeItem('cartDetails');
             removeItem('totalQuantity');
             removeItem('totalPrice');
@@ -321,6 +321,33 @@ const RepeatOrder2 = ({ navigation }) => {
         );
     };
 
+    const renderHeader = () => (
+        <View>
+            <Text style={[styles.DeliveryTitle, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Delivery address</Text>
+            <View style={styles.divider} />
+            <TouchableOpacity style={[styles.searchContainer1, { paddingVertical: ies == 'Level 2' ? 4 : 0 }]} onPress={() => { navigation.navigate('EditDeliveryAddress'); }} >
+                <Ionicons name="search" size={20} color="#000" style={styles.searchIcon} />
+                <TextInput
+                    placeholder={`${address}`}
+                    style={styles.searchInput}
+                    readOnly={true}
+                />
+            </TouchableOpacity>
+
+            <Text style={[styles.DeliveryTitle, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Apply Voucher</Text>
+            <View style={styles.divider} />
+            <TouchableOpacity style={[styles.locationButton, { borderColor: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]} >
+                <Text style={[styles.locationButtonText, { paddingVertical: ies == 'Level 2' ? 4 : 0, color: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>{voucher}</Text>
+            </TouchableOpacity>
+            <View style={styles.OrderSummaryHeader}>
+                <Text style={[styles.DeliveryTitle, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Order Summary</Text>
+                <TouchableOpacity onPress={() => { navigation.navigate('Homepage') }}>
+                    <Text style={[styles.addItemsTitlle, { fontSize: fSize == 'Level 1' ? 12 : 14, }]}>Add Items</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+    );
+
 
     const renderFooter = () => (
 
@@ -347,7 +374,7 @@ const RepeatOrder2 = ({ navigation }) => {
             <View style={styles.OrderSummaryHeader}>
                 <Text style={[styles.DeliveryTitle, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Payment Details</Text>
                 <TouchableOpacity onPress={() => { navigation.navigate('PaymentMethod'); }} >
-                    <Text style={[styles.addItemsTitlle, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? '#AD0202' : '#0000CC' }]}>Change Payment</Text>
+                    <Text style={[styles.addItemsTitlle, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Change Payment</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.itemContainer1}>
@@ -375,54 +402,20 @@ const RepeatOrder2 = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
             <View style={[styles.header, { backgroundColor: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>
                 <TouchableOpacity onPress={() => { navigation.goBack(); }} style={[styles.backButton, { backgroundColor: 'white', padding: ies == 'Level 1' ? 10 : 'Level 2' ? 11 : 12 }]}>
-                    {iers == <Ionicons name="chevron-back" size={ies == 'Level 1' ? 14 : 'Level 2' ? 16 : 18} color={bgColor == 'Level 1' ? "#1D601A" : "#298825"} />}
+                    {iers == 'Level 2' && <Ionicons name="chevron-back" size={ies == 'Level 1' ? 14 : 'Level 2' ? 16 : 18} color={bgColor == 'Level 1' ? "#1D601A" : "#298825"} />}
                     <Text style={[styles.backText, { fontSize: ies == 'Level 1' ? 12 : 'Level 2' ? 14 : 16, color: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>Back</Text>
                 </TouchableOpacity>
                 <Text style={styles.titleText}>Cart Page</Text>
             </View>
             <View style={styles.content}>
-                <Text style={[styles.DeliveryTitle, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Delivery address</Text>
-                <MapView
-                    showsMyLocationButton
-                    showsUserLocation
-                    style={styles.map}
-                    provider={PROVIDER_GOOGLE}
-                    region={{
-                        latitude: latitude,
-                        longitude: longitude,
-                        latitudeDelta: 0.00922,
-                        longitudeDelta: 0.00421,
-                    }}
-                    onPress={() => { navigation.navigate('EditDeliveryAddress'); }} // Add this onPress event handler
-                >
-                    {/* Marker with current location */}
-                    <Marker
-                        coordinate={{
-                            latitude: latitude,
-                            longitude: longitude,
-                        }}
-                        title="Your Location"
-                        description={address}
-                    />
-                </MapView>
 
-                <Text style={[styles.DeliveryTitle, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Apply Voucher</Text>
-                <View style={styles.divider} />
-                <TouchableOpacity style={[styles.locationButton, { borderColor: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]} >
-                    <Text style={[styles.locationButtonText, { paddingVertical: ies == 'Level 2' ? 4 : 0, color: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>{voucher}</Text>
-                </TouchableOpacity>
-                <View style={styles.OrderSummaryHeader}>
-                    <Text style={[styles.DeliveryTitle, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Order Summary</Text>
-                    <TouchableOpacity onPress={() => { navigation.navigate('Homepage') }}>
-                        <Text style={[styles.addItemsTitlle, { fontSize: fSize == 'Level 1' ? 12 : 14, }]}>Add Items</Text>
-                    </TouchableOpacity>
-                </View>
 
                 <FlatList
                     data={cart}
                     renderItem={renderItem}
                     keyExtractor={(item) => item.name}
                     style={styles.list}
+                    ListHeaderComponent={renderHeader}
                     ListFooterComponent={renderFooter}
 
                 />
@@ -496,11 +489,10 @@ const styles = StyleSheet.create({
     list: {
         // Style for FlatList
         flexGrow: 1, // Ensures that the container can grow to fit the content
-        height: 200
 
     },
     DeliveryTitle: {
-        paddingVertical: 5,
+        paddingVertical: 10,
         fontSize: 16,
         fontWeight: 'bold',
         color: 'black', // Adjust the font color to match the design
@@ -553,7 +545,7 @@ const styles = StyleSheet.create({
     addItemsTitlle: {
         fontSize: 14,
         fontWeight: 'bold',
-        color: '#AD0202', // Adjust the font color to match the design
+        color: 'black', // Adjust the font color to match the design
     },
     content: {
         paddingHorizontal: 20,
@@ -612,6 +604,19 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    searchContainer1: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        borderWidth: 3,
+        borderColor: '#F5F5F5',
+        borderRadius: 15,
+        paddingHorizontal: 10,
+
+        marginVertical: 10,
+        justifyContent: 'flex-start'
+
     },
     paymentIcon: {
         width: 30, // Set the width as needed
@@ -769,7 +774,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'start',
         marginTop: 5,
-        marginBottom: 40
+        marginBottom: 200
 
     },
 

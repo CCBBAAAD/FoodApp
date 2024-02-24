@@ -139,7 +139,7 @@ const ChooseRestaurant = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
             <View style={styles.headerContainer}>
                 <TouchableOpacity onPress={() => { navigation.navigate('Homepage'); }} style={[styles.backButton, { backgroundColor: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>
-                    {iers == <Ionicons name="arrow-back" size={ies == 'Level 1' ? 12 : ies == 'Level 2' ? 14 : 16} color={fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC'} />}
+                    {iers == 'Level 2' && <Ionicons name="chevron-back" size={ies == 'Level 1' ? 12 : ies == 'Level 2' ? 14 : 16} color={fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC'} />}
                     <Text style={[styles.backText, { fontSize: ies == 'Level 1' ? 14 : ies == 'Level 2' ? 16 : 18, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC' }]}>Back</Text>
                 </TouchableOpacity>
                 <Text style={styles.headerTitle}>CHOOSE RESTAURANT</Text>

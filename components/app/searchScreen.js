@@ -112,7 +112,7 @@ const SearchComponent = ({ navigation }) => {
             <View style={styles.searchContainerScrolled}>
 
                 <TouchableOpacity style={[styles.fab, { backgroundColor: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>
-                    {iers == <Ionicons name="chevron-back" size={24} color="white" />}
+                    <Ionicons name="chevron-back" size={24} color="white" />
                 </TouchableOpacity>
 
 
