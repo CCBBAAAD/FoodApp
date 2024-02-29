@@ -3,6 +3,8 @@ import { ScrollView, Text, StyleSheet, View, TouchableOpacity, Image, TextInput,
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getItem, setItem } from '../utils/asyncStorage';
 import { Ionicons } from '@expo/vector-icons';
+import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins';
+import { Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto'
 const VoucherPage = ({ navigation }) => {
     const [selectedMethod, setSelectedMethod] = useState(null);
     const [bgColor, setBgColor] = useState('Level 1');
@@ -11,6 +13,13 @@ const VoucherPage = ({ navigation }) => {
     const [fColor, setFColor] = useState('Level 1');
     const [fSize, setFSize] = useState('Level 1');
     const [cdl, setCDL] = useState('Level 1');
+    const [fStyle, setFStyle] = useState('Level 1');
+    let [isFontStyleLoaded] = useFonts({
+        Roboto_400Regular,
+        Poppins_400Regular,
+        Poppins_700Bold,
+        Roboto_700Bold
+    });
     const [loadingScreen, setLoadingScreen] = useState(false);
 
     useEffect(() => {
@@ -87,7 +96,7 @@ const VoucherPage = ({ navigation }) => {
     const vouchers = [
         { id: '1', title: '50% Exclusive promo', vouchersLeft: 2, minimumPurchase: 800, discount: '50' },
         { id: '2', title: '20% Senior Discount', vouchersLeft: 2, minimumPurchase: 800, discount: '20' },
-        { id: '3', title: '5% Exclusive promo', vouchersLeft: 2, minimumPurchase: 800, discount: '05' },
+        { id: '3', title: '10% Exclusive promo', vouchersLeft: 2, minimumPurchase: 800, discount: '10' },
         // ... more voucher data ...
     ];
 
@@ -108,7 +117,7 @@ const VoucherPage = ({ navigation }) => {
                 <Text style={[styles.details, { fontSize: fSize == 'Level 1' ? 14 : fSize == 'Level 2' ? 16 : 20, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>
                     <Ionicons name="alarm-outline" size={fSize == 'Level 1' ? 18 : fSize == 'Level 2' ? 20 : 22} color="#F4D03F" /> {vouchersLeft} vouchers left
                 </Text>
-                <Text style={[styles.details, { fontSize: fSize == 'Level 1' ? 14 : fSize == 'Level 2' ? 16 : 20, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>With minimum purchase of {minimumPurchase} pesos blah blah</Text>
+                <Text style={[styles.details, { fontSize: fSize == 'Level 1' ? 14 : fSize == 'Level 2' ? 16 : 20, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>With minimum purchase of {minimumPurchase} pesos</Text>
             </View>
         </TouchableOpacity>
     );
@@ -134,9 +143,9 @@ const VoucherPage = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={[styles.header, { backgroundColor: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>
-                <TouchableOpacity onPress={() => { navigation.goBack(); }} style={[styles.backButton, { backgroundColor: 'white', padding: ies == 'Level 1' ? 10 : 'Level 2' ? 11 : 12 }]}>
-                    {iers == 'Level 2' && <Ionicons name="chevron-back" size={ies == 'Level 1' ? 14 : 'Level 2' ? 16 : 18} color={bgColor == 'Level 1' ? "#1D601A" : "#298825"} />}
-                    <Text style={[styles.backText, { fontSize: ies == 'Level 1' ? 12 : 'Level 2' ? 14 : 16, color: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>Back</Text>
+                <TouchableOpacity onPress={() => { navigation.goBack(); }} style={[styles.backButton, { backgroundColor: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>
+                    <Ionicons name="chevron-back" size={14} color={fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC'} />
+                    {iers == 'Level 2' && <Text style={[styles.backText, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC' }]}>Back</Text>}
                 </TouchableOpacity>
                 <Text style={styles.titleText}>Available Voucher</Text>
             </View>
@@ -307,7 +316,7 @@ const styles = StyleSheet.create({
 
     backButton: {
         position: 'absolute',
-        top: 18, // Adjust the position as needed
+        top: 25, // Adjust the position as needed
         left: 20,
         zIndex: 10, // Ensure the button is above all other content
         borderRadius: 10,

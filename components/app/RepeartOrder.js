@@ -7,12 +7,13 @@ import * as Location from 'expo-location';
 import { Ionicons } from '@expo/vector-icons';
 import { PROVIDER_GOOGLE } from 'react-native-maps';
 import { useFocusEffect } from '@react-navigation/native'; // Import useFocusEffect hook
-
+import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins';
+import { Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto'
 
 const RepeatOrder1 = ({ navigation }) => {
     const methodImages = {
-        'VISA': require('../../assets/Visa.png'),
-        'cash': require('../../assets/Cash.png'),
+        'Visa': require('../../assets/Visa.png'),
+        'Cash': require('../../assets/Cash.png'),
         'Mastercard': require('../../assets/Mastercard.png'),
 
     };
@@ -42,8 +43,8 @@ const RepeatOrder1 = ({ navigation }) => {
     const [longitude, setLongitude] = useState(null);
     const [latitude, setLatitude] = useState(null);
     const [cart, setCart] = useState(null);
-    const [paymentMethod, setPaymentMethod] = useState("Visa");
-    const [paymentImage, setPaymentImage] = useState("Visa");
+    const [paymentMethod, setPaymentMethod] = useState("Cash");
+    const [paymentImage, setPaymentImage] = useState("Cash");
     const [totalPrice, setTotalPrice] = useState(0);
     const [finalPrice, setFinalPrice] = useState(0);
 
@@ -53,6 +54,13 @@ const RepeatOrder1 = ({ navigation }) => {
     const [fColor, setFColor] = useState('Level 1');
     const [fSize, setFSize] = useState('Level 1');
     const [cdl, setCDL] = useState('Level 1');
+    const [fStyle, setFStyle] = useState('Level 1');
+    let [isFontStyleLoaded] = useFonts({
+        Roboto_400Regular,
+        Poppins_400Regular,
+        Poppins_700Bold,
+        Roboto_700Bold
+    });
     const [loadingScreen, setLoadingScreen] = useState(false);
 
     const removeAsync = () => {
@@ -393,7 +401,7 @@ const RepeatOrder1 = ({ navigation }) => {
             <View style={styles.itemContainer1}>
 
                 <Image source={methodImages[paymentImage]} style={styles.paymentImage} />
-                <Text style={[styles.paymentName, { fontSize: fSize == 'Level 1' ? 16 : fSize == 'Level 2' ? 18 : 20 }]}>{paymentMethod}</Text>
+                <Text style={[styles.paymentName, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>{paymentMethod}</Text>
 
             </View>
 
@@ -413,9 +421,9 @@ const RepeatOrder1 = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
 
             <View style={[styles.header, { backgroundColor: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>
-                <TouchableOpacity onPress={() => { navigation.navigate('Homepage'); }} style={[styles.backButton, { backgroundColor: 'white', padding: ies == 'Level 1' ? 10 : 'Level 2' ? 11 : 12 }]}>
-                    {iers == 'Level 2' && <Ionicons name="chevron-back" size={ies == 'Level 1' ? 14 : 'Level 2' ? 16 : 18} color={bgColor == 'Level 1' ? "#1D601A" : "#298825"} />}
-                    <Text style={[styles.backText, { fontSize: ies == 'Level 1' ? 12 : 'Level 2' ? 14 : 16, color: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>Back</Text>
+                <TouchableOpacity onPress={() => { navigation.goBack(); }} style={[styles.backButton, { backgroundColor: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>
+                    <Ionicons name="chevron-back" size={14} color={fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC'} />
+                    {iers == 'Level 2' && <Text style={[styles.backText, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC' }]}>Back</Text>}
                 </TouchableOpacity>
                 <Text style={styles.titleText}>Cart Page</Text>
             </View>
@@ -660,10 +668,6 @@ const styles = StyleSheet.create({
         color: 'black',
         width: '100%',
     },
-    searchicon: {
-        padding: 5,
-        color: 'grey'
-    },
     filterIcon: {
         padding: 5,
         color: '#9E9E9E'
@@ -784,7 +788,7 @@ const styles = StyleSheet.create({
 
     backButton: {
         position: 'absolute',
-        top: 18, // Adjust the position as needed
+        top: 30, // Adjust the position as needed
         left: 20,
         zIndex: 10, // Ensure the button is above all other content
         borderRadius: 10,

@@ -9,8 +9,8 @@ import { getItem } from '../utils/asyncStorage';
 import { setItem } from '../utils/asyncStorage';
 import { removeItem } from '../utils/asyncStorage';
 import { useFocusEffect } from '@react-navigation/native'; // Import useFocusEffect hook
-import { useFonts, Poppins_400Regular } from '@expo-google-fonts/poppins';
-import { Roboto_400Regular } from '@expo-google-fonts/roboto'
+import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins';
+import { Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto'
 
 const Homepage = ({ navigation }) => {
     const [checkCart, setCheckCart] = useState(false); // Set the fullName from the passed param or default to empty
@@ -31,6 +31,8 @@ const Homepage = ({ navigation }) => {
     let [isFontStyleLoaded] = useFonts({
         Roboto_400Regular,
         Poppins_400Regular,
+        Poppins_700Bold,
+        Roboto_700Bold
     });
 
 
@@ -386,7 +388,7 @@ const Homepage = ({ navigation }) => {
 
             {isScrolled == false && <View style={[styles.header, { backgroundColor: bgColor == 'Level 1' ? "#1D601A" : "#298825", }]}>
                 <View style={styles.header1}>
-                    <Text style={[styles.titleText, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC' }]}>Hello, Berna!</Text>
+                    <Text style={[styles.titleText, { fontFamily: fStyle == 'Level 1' ? 'Poppins_700Bold' : 'Roboto_700Bold', color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC' }]}>Hello, Berna!</Text>
 
                     <Ionicons name="settings" size={ies == 'Level 1' ? 18 : 'Level 2' ? 22 : 26} color="white" onPress={() => { setModalVisible(true) }} style={styles.titleIcon} />
 
@@ -401,7 +403,7 @@ const Homepage = ({ navigation }) => {
                 <TouchableOpacity style={[styles.searchContainer, { paddingVertical: ies == 'Level 2' ? 3 : 0, borderColor: bgColor == 'Level 1' ? "#1D601A" : "#298825", }]} onPress={() => { navigation.navigate('SearchComponent'); }}>
                     <TextInput
                         placeholder="Search Restaurants."
-                        style={[styles.searchInput, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}
+                        style={[styles.searchInput, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}
                         editable={false}
                     />
                     {iers == 'Level 2' && <Ionicons name="search" size={20} color="#000" style={styles.searchicon} />}
@@ -415,7 +417,7 @@ const Homepage = ({ navigation }) => {
                 <TouchableOpacity style={[styles.searchContainerScrolled, { paddingVertical: ies == 'Level 2' ? 3 : 0, borderColor: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]} onPress={() => { navigation.navigate('SearchComponent'); }}>
                     <TextInput
                         placeholder="Search food items..."
-                        style={[styles.searchInput, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}
+                        style={[styles.searchInput, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}
                         editable={true}
                     />
                     {iers == 'Level 2' && <Ionicons name="search" size={20} color="#000" style={styles.searchicon} />}
@@ -429,14 +431,14 @@ const Homepage = ({ navigation }) => {
                 <View style={styles.HeaderOptionTopRow}>
                     <TouchableOpacity style={[styles.option, { paddingBottom: 25, paddingLeft: 15, paddingTop: 10, backgroundColor: '#E8FCE9', alignItems: 'start', justifyContent: 'start', alignContent: 'start', width: ies == 'Level 1' ? '42%' : '44%' }]} onPress={() => { if (hasPrevCart == true) { navigation.navigate('RepeatOrder1'); } }}>
 
-                        <Text style={[styles.title2, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Repeat</Text>
-                        <Text style={[styles.title2, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Last Order</Text>
+                        <Text style={[styles.title2, { fontFamily: fStyle == 'Level 1' ? 'Poppins_700Bold' : 'Roboto_700Bold', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Repeat</Text>
+                        <Text style={[styles.title2, { fontFamily: fStyle == 'Level 1' ? 'Poppins_700Bold' : 'Roboto_700Bold', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Last Order</Text>
                         {iers == 'Level 2' && <Image source={require('../../assets/lastMeal.png')} style={styles.image} resizeMode="contain" />}
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.option, { paddingBottom: 25, paddingLeft: 15, paddingTop: 10, backgroundColor: '#FCE8FB', alignItems: 'start', justifyContent: 'start', alignContent: 'start', width: ies == 'Level 1' ? '42%' : '44%' }]} onPress={() => { navigation.navigate('ChooseCuisine'); }} >
 
-                        <Text style={[styles.title2, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>New</Text>
-                        <Text style={[styles.title2, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Dishes!</Text>
+                        <Text style={[styles.title2, { fontFamily: fStyle == 'Level 1' ? 'Poppins_700Bold' : 'Roboto_700Bold', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>New</Text>
+                        <Text style={[styles.title2, { fontFamily: fStyle == 'Level 1' ? 'Poppins_700Bold' : 'Roboto_700Bold', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Dishes!</Text>
                         {iers == 'Level 2' && <Image source={require('../../assets/newDishes.png')} style={styles.image} resizeMode="contain" />}
                     </TouchableOpacity>
 
@@ -446,20 +448,20 @@ const Homepage = ({ navigation }) => {
                 <View style={styles.HeaderOptionTopRow}>
                     <TouchableOpacity style={[styles.option, { paddingBottom: 25, paddingLeft: 15, paddingTop: 10, backgroundColor: '#E8F1FC', alignItems: 'start', justifyContent: 'start', alignContent: 'start', width: ies == 'Level 1' ? '42%' : '44%' }]} onPress={() => { navigation.navigate('ChooseRestaurant'); }} >
 
-                        <Text style={[styles.title2, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Explore</Text>
-                        <Text style={[styles.title2, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Restaurants</Text>
+                        <Text style={[styles.title2, { fontFamily: fStyle == 'Level 1' ? 'Poppins_700Bold' : 'Roboto_700Bold', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Explore</Text>
+                        <Text style={[styles.title2, { fontFamily: fStyle == 'Level 1' ? 'Poppins_700Bold' : 'Roboto_700Bold', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Restaurants</Text>
                         {iers == 'Level 2' && <Image source={require('../../assets/exploreRestaurants.png')} style={styles.image} resizeMode="contain" />}
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.option, { paddingBottom: 25, paddingLeft: 15, paddingTop: 10, backgroundColor: '#FCF3E8', alignItems: 'start', justifyContent: 'start', alignContent: 'start', width: ies == 'Level 1' ? '42%' : '44%' }]} onPress={() => { navigation.navigate('EditDeliveryAddress'); }} >
 
-                        <Text style={[styles.title2, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Delivery</Text>
-                        <Text style={[styles.title2, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Address</Text>
+                        <Text style={[styles.title2, { fontFamily: fStyle == 'Level 1' ? 'Poppins_700Bold' : 'Roboto_700Bold', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Delivery</Text>
+                        <Text style={[styles.title2, { fontFamily: fStyle == 'Level 1' ? 'Poppins_700Bold' : 'Roboto_700Bold', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Address</Text>
                         {iers == 'Level 2' && <Image source={require('../../assets/deliveryAddress.png')} style={styles.image} resizeMode="contain" />}
                     </TouchableOpacity>
 
                 </View>
 
-                <Text style={[styles.Category, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', fontSize: fSize == 'Level 1' ? 18 : fSize == 'Level 2' ? 20 : 22, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Restaurant</Text>
+                <Text style={[styles.Category, { fontFamily: fStyle == 'Level 1' ? 'Poppins_700Bold' : 'Roboto_700Bold', fontSize: fSize == 'Level 1' ? 18 : fSize == 'Level 2' ? 20 : 22, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Restaurant</Text>
                 <ScrollView
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
@@ -990,8 +992,6 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         paddingBottom: 5,
         fontSize: 22,
-        fontWeight: 'bold',
-
     },
 
     titleIcon: {
@@ -1068,7 +1068,7 @@ const styles = StyleSheet.create({
 
     },
     title2: {
-        fontWeight: 'bold',
+
     },
     title3: {
 

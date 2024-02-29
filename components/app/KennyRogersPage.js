@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, ActivityIn
 import { Ionicons } from '@expo/vector-icons';
 import { getItem } from '../utils/asyncStorage';
 import { setItem } from '../utils/asyncStorage';
+import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins';
+import { Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto'
 const KennyRogersPage = ({ navigation }) => {
     const scrollRef = useRef();
     const [popularPosition, setPopularPosition] = useState(81.5);
@@ -20,6 +22,13 @@ const KennyRogersPage = ({ navigation }) => {
     const [fColor, setFColor] = useState('Level 1');
     const [fSize, setFSize] = useState('Level 1');
     const [cdl, setCDL] = useState('Level 1');
+    const [fStyle, setFStyle] = useState('Level 1');
+    let [isFontStyleLoaded] = useFonts({
+        Roboto_400Regular,
+        Poppins_400Regular,
+        Poppins_700Bold,
+        Roboto_700Bold
+    });
 
 
     const [isScrolled, setIsScrolled] = useState(false);
@@ -178,8 +187,8 @@ const KennyRogersPage = ({ navigation }) => {
         <View style={{ flex: 1 }}>
             <Image source={require('../../assets/finalAssets/kennyRoger.png')} style={styles.backgroundImage} />
             <TouchableOpacity onPress={() => { navigation.navigate('Homepage'); }} style={[styles.backButton, { backgroundColor: bgColor == 'Level 1' ? "#1D601A" : "#298825", padding: ies == 'Level 1' ? 10 : 'Level 2' ? 11 : 12 }]}>
-                {iers == 'Level 2' && <Ionicons name="chevron-back" size={ies == 'Level 1' ? 14 : 'Level 2' ? 16 : 18} color="white" />}
-                <Text style={[styles.backText, { fontSize: ies == 'Level 1' ? 12 : 'Level 2' ? 14 : 16 }]}>Back</Text>
+                <Ionicons name="chevron-back" size={14} color={fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC'} />
+                {iers == 'Level 2' && <Text style={[styles.backText, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC' }]}>Back</Text>}
             </TouchableOpacity>
             <View style={[styles.detailsContainer, { marginTop: isScrolled ? 100 : 200 }]} >
                 <View style={styles.header}>

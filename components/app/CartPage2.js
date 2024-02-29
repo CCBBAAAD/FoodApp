@@ -8,12 +8,13 @@ import { Ionicons } from '@expo/vector-icons';
 import { PROVIDER_GOOGLE } from 'react-native-maps';
 import { removeItem } from '../utils/asyncStorage';
 import { useFocusEffect } from '@react-navigation/native'; // Import useFocusEffect hook
-
+import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins';
+import { Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto'
 
 const CartPageScreen2 = ({ navigation }) => {
     const methodImages = {
-        'VISA': require('../../assets/Visa.png'),
-        'cash': require('../../assets/Cash.png'),
+        'Visa': require('../../assets/Visa.png'),
+        'Cash': require('../../assets/Cash.png'),
         'Mastercard': require('../../assets/Mastercard.png'),
 
     };
@@ -44,8 +45,8 @@ const CartPageScreen2 = ({ navigation }) => {
     const [latitude, setLatitude] = useState(null);
     const [loading, setLoading] = useState(true);
     const [cart, setCart] = useState(null);
-    const [paymentMethod, setPaymentMethod] = useState("Visa");
-    const [paymentImage, setPaymentImage] = useState("Visa");
+    const [paymentMethod, setPaymentMethod] = useState("Cash");
+    const [paymentImage, setPaymentImage] = useState("Cash");
     const [totalPrice, setTotalPrice] = useState(0);
     const [voucher, setVoucher] = useState("");
     const [discount, setDiscount] = useState("");
@@ -58,6 +59,13 @@ const CartPageScreen2 = ({ navigation }) => {
     const [fColor, setFColor] = useState('Level 1');
     const [fSize, setFSize] = useState('Level 1');
     const [cdl, setCDL] = useState('Level 1');
+    const [fStyle, setFStyle] = useState('Level 1');
+    let [isFontStyleLoaded] = useFonts({
+        Roboto_400Regular,
+        Poppins_400Regular,
+        Poppins_700Bold,
+        Roboto_700Bold
+    });
     const [loadingScreen, setLoadingScreen] = useState(false);
 
     const fetchData = async () => {
@@ -333,16 +341,15 @@ const CartPageScreen2 = ({ navigation }) => {
                     readOnly={true}
                 />
             </TouchableOpacity>
-
             <Text style={[styles.DeliveryTitle, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Apply Voucher</Text>
             <View style={styles.divider} />
             <TouchableOpacity style={[styles.locationButton, { borderColor: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]} >
-                <Text style={[styles.locationButtonText, { paddingVertical: ies == 'Level 2' ? 4 : 0, color: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>{voucher}</Text>
+                <Text style={[styles.locationButtonText, { paddingVertical: ies == 'Level 2' ? 4 : 0, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>{voucher}</Text>
             </TouchableOpacity>
             <View style={styles.OrderSummaryHeader}>
                 <Text style={[styles.DeliveryTitle, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Order Summary</Text>
                 <TouchableOpacity onPress={() => { navigation.navigate('Homepage') }}>
-                    <Text style={[styles.addItemsTitlle, { fontSize: fSize == 'Level 1' ? 12 : 14, }]}>Add Items</Text>
+                    <Text style={[styles.addItemsTitlle, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Add Items</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -380,8 +387,7 @@ const CartPageScreen2 = ({ navigation }) => {
             <View style={styles.itemContainer1}>
 
                 <Image source={methodImages[paymentImage]} style={styles.paymentImage} />
-                <Text style={[styles.paymentName, { fontSize: fSize == 'Level 1' ? 16 : fSize == 'Level 2' ? 18 : 20 }]}>{paymentMethod}</Text>
-
+                <Text style={[styles.paymentName, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>{paymentMethod}</Text>
             </View>
 
 
@@ -401,9 +407,9 @@ const CartPageScreen2 = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={[styles.header, { backgroundColor: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>
-                <TouchableOpacity onPress={() => { navigation.goBack(); }} style={[styles.backButton, { backgroundColor: 'white', padding: ies == 'Level 1' ? 10 : 'Level 2' ? 11 : 12 }]}>
-                    {iers == 'Level 2' && <Ionicons name="chevron-back" size={ies == 'Level 1' ? 14 : 'Level 2' ? 16 : 18} color={bgColor == 'Level 1' ? "#1D601A" : "#298825"} />}
-                    <Text style={[styles.backText, { fontSize: ies == 'Level 1' ? 12 : 'Level 2' ? 14 : 16, color: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>Back</Text>
+                <TouchableOpacity onPress={() => { navigation.goBack(); }} style={[styles.backButton, { backgroundColor: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>
+                    <Ionicons name="chevron-back" size={14} color={fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC'} />
+                    {iers == 'Level 2' && <Text style={[styles.backText, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC' }]}>Back</Text>}
                 </TouchableOpacity>
                 <Text style={styles.titleText}>Cart Page</Text>
             </View>
@@ -659,10 +665,6 @@ const styles = StyleSheet.create({
         color: 'black',
         width: '100%',
     },
-    searchicon: {
-        padding: 5,
-        color: 'grey'
-    },
     filterIcon: {
         padding: 5,
         color: '#9E9E9E'
@@ -780,7 +782,7 @@ const styles = StyleSheet.create({
 
     backButton: {
         position: 'absolute',
-        top: 18, // Adjust the position as needed
+        top: 25, // Adjust the position as needed
         left: 20,
         zIndex: 10, // Ensure the button is above all other content
         borderRadius: 10,
@@ -792,7 +794,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'white'
     },
-
+    searchIcon: {
+        padding: 5,
+        color: '#9E9E9E'
+    },
     loadingContainer: {
         position: 'absolute',
         top: 0,

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, Text, StyleSheet, View, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native';
+import { ScrollView, Text, StyleSheet, View, TouchableOpacity, TextInput, ActivityIndicator, FlatList } from 'react-native';
 import { getItem, setItem } from '../utils/asyncStorage';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { Ionicons } from '@expo/vector-icons';
 import { PROVIDER_GOOGLE } from 'react-native-maps';
-
+import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins';
+import { Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto'
 const EditDeliveryAddress = ({ navigation }) => {
     const [address, setAddress] = useState(''); // Set the fullName from the passed param or default to empty
     const [label, setLabel] = useState('');
@@ -19,6 +20,14 @@ const EditDeliveryAddress = ({ navigation }) => {
     const [fColor, setFColor] = useState('Level 1');
     const [fSize, setFSize] = useState('Level 1');
     const [cdl, setCDL] = useState('Level 1');
+    const [fStyle, setFStyle] = useState('Level 1');
+    const [places, setPlaces] = useState([]);
+    let [isFontStyleLoaded] = useFonts({
+        Roboto_400Regular,
+        Poppins_400Regular,
+        Poppins_700Bold,
+        Roboto_700Bold
+    });
     const [loadingScreen, setLoadingScreen] = useState(false);
     const [permissionsGranted, setPermissionsGranted] = useState(false);
 
@@ -41,6 +50,30 @@ const EditDeliveryAddress = ({ navigation }) => {
             }
         } catch (error) {
             console.error('An error occurred while fetching data', error);
+            setLoadingScreen(false);
+        }
+    };
+
+    const handleChange = (text) => {
+        setAddress(text);
+        fetchPlaces(text);
+    };
+
+    const fetchPlaces = async (inputText) => {
+        if (!inputText.trim()) {
+            setPlaces([]);
+            return;
+        }
+
+        setLoadingScreen(true);
+        try {
+            const apiKey = 'AIzaSyD-J7i55eKbi9olPpF9R71wC7wnS64XaCo';
+            const response = await fetch(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(inputText)}&key=${apiKey}`);
+            const data = await response.json();
+            setPlaces(data.predictions);
+        } catch (error) {
+            console.error('Failed to fetch places:', error);
+        } finally {
             setLoadingScreen(false);
         }
     };
@@ -137,12 +170,7 @@ const EditDeliveryAddress = ({ navigation }) => {
         navigation.goBack();
     };
 
-    const handleMapClick = (event) => {
-        const { latitude, longitude } = event.nativeEvent.coordinate;
-        setLatitude(latitude);
-        setLongitude(longitude);
-        getNewLocation();
-    };
+
 
     // Function to update location based on latitude and longitude
     const getNewLocation = async () => {
@@ -214,62 +242,51 @@ const EditDeliveryAddress = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
 
             <View style={[styles.header, { backgroundColor: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>
-                <TouchableOpacity onPress={() => { navigation.navigate('Homepage'); }} style={[styles.backButton, { backgroundColor: 'white', padding: ies == 'Level 1' ? 10 : 'Level 2' ? 11 : 12 }]}>
-                    {iers == 'Level 2' && <Ionicons name="chevron-back" size={ies == 'Level 1' ? 14 : 'Level 2' ? 16 : 18} color={bgColor == 'Level 1' ? "#1D601A" : "#298825"} />}
-                    <Text style={[styles.backText, { fontSize: ies == 'Level 1' ? 12 : 'Level 2' ? 14 : 16, color: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>Back</Text>
+                <TouchableOpacity onPress={() => { navigation.goBack(); }} style={[styles.backButton, { backgroundColor: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>
+                    <Ionicons name="chevron-back" size={14} color={fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC'} />
+                    {iers == 'Level 2' && <Text style={[styles.backText, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC' }]}>Back</Text>}
                 </TouchableOpacity>
                 <Text style={styles.titleText}>Delivery Address</Text>
             </View>
             <View style={styles.content}>
-                <MapView
-                    showsMyLocationButton={true}
-                    showsUserLocation={true}
-                    style={styles.map}
 
-                    provider={PROVIDER_GOOGLE}
 
-                    region={{
-                        latitude: latitude,
-                        longitude: longitude,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
-                    }}
-                    onPress={handleMapClick} // Add this onPress event handler
-                >
-                    {/* Marker with current location */}
-                    <Marker
-                        coordinate={{
-                            latitude: latitude,
-                            longitude: longitude,
-                        }}
-                        title="Your Location"
-                        description={address}
-                    />
-                </MapView>
+                <Text style={[styles.bodyText, { fontSize: fSize == 'Level 1' ? 18 : fSize == 'Level 2' ? 20 : 22, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}> Enter your delivery address</Text>
 
-                <ScrollView>
-                    <Text style={[styles.bodyText, { fontSize: fSize == 'Level 1' ? 18 : fSize == 'Level 2' ? 20 : 22, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}> Enter your delivery address</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={handleChange}
+                    value={address}
+                    placeholder=""
+                />
+                <Text style={[styles.bodyText, { fontSize: fSize == 'Level 1' ? 18 : fSize == 'Level 2' ? 20 : 22, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}> label </Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={setLabel}
+                    value={label}
+                    placeholder="Home"
+                />
 
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={setAddress}
-                        value={address}
-                        placeholder=""
-                    />
-                    <Text style={[styles.bodyText, { fontSize: fSize == 'Level 1' ? 18 : fSize == 'Level 2' ? 20 : 22, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}> label </Text>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={setLabel}
-                        value={label}
-                        placeholder="Home"
-                    />
-                    <TouchableOpacity style={[styles.locationButton, { borderColor: bgColor == 'Level 1' ? "#1D601A" : "#298825", width: ies == 'Level 1' ? '70%' : 'Level 2' ? '80%' : '80%' }]} onPress={getCurrentLocation}>
-                        <Text style={[styles.locationButtonText, { paddingVertical: ies == 'Level 2' ? 2 : 0, color: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>Use Current Location</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[styles.agreeButton, { backgroundColor: bgColor == 'Level 1' ? "#1D601A" : "#298825", width: ies == 'Level 1' ? '70%' : 'Level 2' ? '80%' : '80%' }]} onPress={handleContinue}>
-                        <Text style={[styles.agreeButtonText, { paddingVertical: ies == 'Level 2' ? 2 : 0, }]}>Confirm</Text>
-                    </TouchableOpacity>
-                </ScrollView>
+                <FlatList
+                    data={places}
+                    keyExtractor={(item) => item.place_id}
+                    renderItem={({ item }) => (
+                        <TouchableOpacity style={styles.itemContainer} onPress={() => { setAddress(item.description) }}>
+                            <View style={styles.itemTextContainer}>
+                                <Ionicons name="location" size={20} color={fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC'} />
+                                <Text style={styles.locationText}>{item.description}</Text>
+                            </View>
+                            <View style={styles.divider} />
+                        </TouchableOpacity>
+                    )}
+                />
+                <TouchableOpacity style={[styles.locationButton, { borderColor: bgColor == 'Level 1' ? "#1D601A" : "#298825", width: ies == 'Level 1' ? '75%' : 'Level 2' ? '85%' : '90%' }]} onPress={getCurrentLocation}>
+                    <Text style={[styles.locationButtonText, { paddingVertical: ies == 'Level 2' ? 2 : 0, color: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>Use Current Location</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.agreeButton, { backgroundColor: bgColor == 'Level 1' ? "#1D601A" : "#298825", width: ies == 'Level 1' ? '75%' : 'Level 2' ? '85%' : '90%' }]} onPress={handleContinue}>
+                    <Text style={[styles.agreeButtonText, { paddingVertical: ies == 'Level 2' ? 2 : 0, }]}>Confirm</Text>
+                </TouchableOpacity>
+
 
             </View>
 
@@ -332,6 +349,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5F5F5'
     },
     bodyText: {
+        paddingTop: 10,
         lineHeight: 24,
         fontWeight: 'bold',
         textAlign: 'justify'
@@ -389,7 +407,7 @@ const styles = StyleSheet.create({
 
     backButton: {
         position: 'absolute',
-        top: 18, // Adjust the position as needed
+        top: 25, // Adjust the position as needed
         left: 20,
         zIndex: 10, // Ensure the button is above all other content
         borderRadius: 10,
@@ -402,6 +420,30 @@ const styles = StyleSheet.create({
         color: 'white'
     },
 
+    itemContainer: {
+        flex: 1,
+        paddingVertical: 5,
+    },
+    itemTextContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    iconStyle: {
+        width: 20,
+        height: 20, // Set the size of your icon
+        marginRight: 10,
+    },
+    locationText: {
+        paddingLeft: 10,
+        paddingRight: 20,
+        fontSize: 14,
+        color: '#333',
+    },
+    divider: {
+        height: 1,
+        backgroundColor: '#e0e0e0',
+        marginTop: 5,
+    },
 
     loadingContainer: {
         position: 'absolute',

@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, ActivityIn
 import { Ionicons } from '@expo/vector-icons';
 import { CheckBox } from '@rneui/themed';
 import { getItem, setItem } from '../../utils/asyncStorage';
+import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins';
+import { Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto'
 const TFCThaiMango = ({ navigation }) => {
 
     // Add more state for other positions as needed
@@ -25,6 +27,13 @@ const TFCThaiMango = ({ navigation }) => {
     const [fColor, setFColor] = useState('Level 1');
     const [fSize, setFSize] = useState('Level 1');
     const [cdl, setCDL] = useState('Level 1');
+    const [fStyle, setFStyle] = useState('Level 1');
+    let [isFontStyleLoaded] = useFonts({
+        Roboto_400Regular,
+        Poppins_400Regular,
+        Poppins_700Bold,
+        Roboto_700Bold
+    });
 
     const decreaseQuantity = () => {
         setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
@@ -67,6 +76,16 @@ const TFCThaiMango = ({ navigation }) => {
 
                     setIERS(iers1);
                 }
+
+
+                const fStyle1 = await getItem('fStyle');
+                if (!fStyle1) {
+                    console.log("no fStyle");
+                } else {
+                    console.log(fStyle1);
+                    setFStyle(fStyle1)
+                }
+
 
                 const fColor1 = await getItem('fColor');
                 if (!fColor1) {
@@ -182,43 +201,43 @@ const TFCThaiMango = ({ navigation }) => {
         <View style={{ flex: 1 }}>
             <Image source={require('../../../assets/finalAssets/tfc_thaiMango.png')} style={styles.backgroundImage} />
             <TouchableOpacity onPress={() => { navigation.goBack(); }} style={[styles.backButton, { backgroundColor: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>
-                {iers == 'Level 2' && <Ionicons name="chevron-back" size={14} color={fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC'} />}
-                <Text style={[styles.backText, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC' }]}>Back</Text>
+                <Ionicons name="chevron-back" size={14} color={fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC'} />
+                {iers == 'Level 2' && <Text style={[styles.backText, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC' }]}>Back</Text>}
             </TouchableOpacity>
             <ScrollView style={styles.detailsContainer}>
                 <View style={styles.header}>
-                    {cdl == 'Level 1' && <Text style={[styles.restaurantName, { fontSize: 20, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Thai Fried Chicken</Text>}
-                    {cdl == 'Level 2' && <Text style={[styles.restaurantName, { fontSize: 20, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Boneless Thai Fried Chicken</Text>}
-                    {cdl == 'Level 3' && <Text style={[styles.restaurantName, { fontSize: 20, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Boneless Thai Fried Chicken Marinated in authentic Thai seasonings</Text>}
+                    {cdl == 'Level 1' && <Text style={[styles.restaurantName, { fontSize: 18, fontFamily: fStyle == 'Level 1' ? 'Poppins_700Bold' : 'Roboto_700Bold', color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Thai Fried Chicken</Text>}
+                    {cdl == 'Level 2' && <Text style={[styles.restaurantName, { fontSize: 18, fontFamily: fStyle == 'Level 1' ? 'Poppins_700Bold' : 'Roboto_700Bold', color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Boneless Thai Fried Chicken</Text>}
+                    {cdl == 'Level 3' && <Text style={[styles.restaurantName, { fontSize: 18, fontFamily: fStyle == 'Level 1' ? 'Poppins_700Bold' : 'Roboto_700Bold', color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Boneless Thai Fried Chicken Marinated in authentic Thai seasonings</Text>}
                     <Text style={[styles.restaurantPrice, { color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>₱239</Text>
                 </View>
 
 
 
                 <View style={styles.nutrionalContainer}>
-                    <Text style={[styles.nutrionalTitle, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Nutritional Information</Text>
+                    <Text style={[styles.nutrionalTitle, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Nutritional Information</Text>
                     <View style={styles.nutrionalInfoContainer}>
                         <View style={styles.nutrionalInfoItem}>
-                            <Text style={[styles.nutrionalValue, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>430</Text>
-                            <Text style={[styles.nutrionalLabel, { fontSize: fSize == 'Level 1' ? 14 : fSize == 'Level 2' ? 16 : 18 }]}>calories</Text>
+                            <Text style={[styles.nutrionalValue, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>430</Text>
+                            <Text style={[styles.nutrionalLabel, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', fontSize: fSize == 'Level 1' ? 12 : 14, }]}>calories</Text>
                         </View>
                         <View style={styles.nutrionalInfoItem}>
-                            <Text style={[styles.nutrionalValue, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>20g</Text>
-                            <Text style={[styles.nutrionalLabel, { fontSize: fSize == 'Level 1' ? 14 : fSize == 'Level 2' ? 16 : 18 }]}>Carbs</Text>
+                            <Text style={[styles.nutrionalValue, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>20g</Text>
+                            <Text style={[styles.nutrionalLabel, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', fontSize: fSize == 'Level 1' ? 12 : 14, }]}>Carbs</Text>
                         </View>
                         <View style={styles.nutrionalInfoItem}>
-                            <Text style={[styles.nutrionalValue, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>71g</Text>
-                            <Text style={[styles.nutrionalLabel, { fontSize: fSize == 'Level 1' ? 14 : fSize == 'Level 2' ? 16 : 18 }]}>Fiber</Text>
+                            <Text style={[styles.nutrionalValue, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>71g</Text>
+                            <Text style={[styles.nutrionalLabel, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', fontSize: fSize == 'Level 1' ? 12 : 14, }]}>Fiber</Text>
                         </View>
                         <View style={styles.nutrionalInfoItem}>
-                            <Text style={[styles.nutrionalValue, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>3g</Text>
-                            <Text style={[styles.nutrionalLabel, { fontSize: fSize == 'Level 1' ? 14 : fSize == 'Level 2' ? 16 : 18 }]}>Protein</Text>
+                            <Text style={[styles.nutrionalValue, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>3g</Text>
+                            <Text style={[styles.nutrionalLabel, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', fontSize: fSize == 'Level 1' ? 12 : 14, }]}>Protein</Text>
                         </View>
                     </View>
                 </View>
 
                 <View style={styles.selectiorContainer}>
-                    <Text style={[styles.selectorTitle, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Add ons: Savory (optional)</Text>
+                    <Text style={[styles.selectorTitle, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>Add ons: Savory (optional)</Text>
                     {extraSauces.map((option, index) => (
                         <View key={index}>
                             <TouchableOpacity
@@ -233,8 +252,8 @@ const TFCThaiMango = ({ navigation }) => {
                                     checkedColor={bgColor == 'Level 1' ? "#1D601A" : "#298825"}
                                     containerStyle={styles.selectorCheckbox}
                                 />
-                                <Text style={[styles.selectorOptionText, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>{option.label}</Text>
-                                <Text style={[styles.selectorPriceText, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>{option.priceChange}</Text>
+                                <Text style={[styles.selectorOptionText, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>{option.label}</Text>
+                                <Text style={[styles.selectorPriceText, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>{option.priceChange}</Text>
 
                             </TouchableOpacity>
                             <View style={styles.divider} />
@@ -251,13 +270,13 @@ const TFCThaiMango = ({ navigation }) => {
                     <TouchableOpacity onPress={decreaseQuantity} style={styles.DecreaseQuantityButton}>
                         <Ionicons name="remove-outline" size={ies == 'Level 1' ? 18 : 'Level 2' ? 24 : 30} color="white" />
                     </TouchableOpacity>
-                    <Text style={[styles.quantityText, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>{quantity}</Text>
+                    <Text style={[styles.quantityText, { fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'black' : '#0000CC' }]}>{quantity}</Text>
                     <TouchableOpacity onPress={increaseQuantity} style={[styles.IncreaseQuantityButton, { backgroundColor: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>
                         <Ionicons name="add-outline" size={ies == 'Level 1' ? 18 : 'Level 2' ? 24 : 30} color="white" />
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={[styles.addToCartButton, { paddingHorizontal: 40, backgroundColor: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]} onPress={() => { addToCard(cdl == 'Level 1' ? "Thai Fried Chicken" : 'Level 2' ? "Boneless Thai Fried Chicken" : "Boneless Thai Fried Chicken Marinated in authentic Thai seasonings", 239, "../../assets/finalAssets/tfc_thaiMango.png", quantity) }} >
-                    <Text style={[styles.addToCartText, { paddingVertical: ies == 'Level 2' ? 4 : 0, fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC' }]}>Add to Cart</Text>
+                <TouchableOpacity style={[styles.addToCartButton, { paddingHorizontal: ies == 'Level 1' ? 45 : 'Level 2' ? 48 : 52, backgroundColor: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]} onPress={() => { addToCard(cdl == 'Level 1' ? "Thai Fried Chicken" : 'Level 2' ? "Boneless Thai Fried Chicken" : "Boneless Thai Fried Chicken Marinated in authentic Thai seasonings", 239, "../../assets/finalAssets/tfc_thaiMango.png", quantity) }} >
+                    <Text style={[styles.addToCartText, { paddingVertical: ies == 'Level 2' ? 4 : 0, fontFamily: fStyle == 'Level 1' ? 'Poppins_400Regular' : 'Roboto_400Regular', fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC' }]}>Add to Cart</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -324,7 +343,6 @@ const styles = StyleSheet.create({
 
     },
     restaurantName: {
-        fontWeight: 'bold',
         fontSize: 18,
         width: 240,
         margin: 10,

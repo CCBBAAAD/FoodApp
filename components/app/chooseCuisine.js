@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, FlatList, Image, StyleSheet, ActivityIndi
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { getItem } from '../utils/asyncStorage';
+import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins';
+import { Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto'
 const ChooseCuisine = ({ navigation }) => {
     const [selectedCuisines, setSelectedCuisines] = useState([]);
     const [isSelected, setIsSelected] = useState(false);
@@ -23,6 +25,13 @@ const ChooseCuisine = ({ navigation }) => {
     const [fColor, setFColor] = useState('Level 1');
     const [fSize, setFSize] = useState('Level 1');
     const [cdl, setCDL] = useState('Level 1');
+    const [fStyle, setFStyle] = useState('Level 1');
+    let [isFontStyleLoaded] = useFonts({
+        Roboto_400Regular,
+        Poppins_400Regular,
+        Poppins_700Bold,
+        Roboto_700Bold
+    });
     const [loadingScreen, setLoadingScreen] = useState(false);
 
     useEffect(() => {
@@ -137,8 +146,8 @@ const ChooseCuisine = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
             <View style={styles.headerContainer}>
                 <TouchableOpacity onPress={() => { navigation.navigate('Homepage'); }} style={[styles.backButton, { backgroundColor: bgColor == 'Level 1' ? "#1D601A" : "#298825" }]}>
-                    {iers == 'Level 2' && <Ionicons name="chevron-back" size={ies == 'Level 1' ? 12 : ies == 'Level 2' ? 14 : 16} color={fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC'} />}
-                    <Text style={[styles.backText, { fontSize: ies == 'Level 1' ? 14 : ies == 'Level 2' ? 16 : 18, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC' }]}>Back</Text>
+                    <Ionicons name="chevron-back" size={14} color={fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC'} />
+                    {iers == 'Level 2' && <Text style={[styles.backText, { fontSize: fSize == 'Level 1' ? 12 : 14, color: fColor == 'Level 1' ? '#AD0202' : fColor == 'Level 2' ? 'white' : '#0000CC' }]}>Back</Text>}
                 </TouchableOpacity>
                 <Text style={styles.headerTitle}>CHOOSE CUISINE</Text>
             </View>
